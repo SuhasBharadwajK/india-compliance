@@ -626,24 +626,6 @@ def validate_place_of_supply(doc):
             title=_("Invalid Place of Supply"),
         )
 
-    if (
-        doc.doctype in SALES_DOCTYPES
-        and doc.gst_category == "Overseas"
-        and doc.place_of_supply != "96-Other Countries"
-        and (
-            not doc.shipping_address_name
-            or frappe.db.get_value("Address", doc.shipping_address_name, "country") != "India"
-        )
-    ):
-        frappe.throw(
-            _(
-                "GST Category is set to <strong>Overseas</strong> but Place of Supply"
-                " is within India. Shipping Address in India is required for classifing"
-                " this as B2C."
-            ),
-            title=_("Invalid Shipping Address"),
-        )
-
 
 def is_inter_state_supply(doc):
     if doc.doctype == "Stock Entry":
